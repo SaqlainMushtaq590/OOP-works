@@ -113,16 +113,7 @@ using namespace std;
 //	return 0;
 //}
   
-  //==================================================lab 2 Task 1=========================
-  
-    int main(){
-	
-   	Employee E1;
-   	
-   	E1.displayDetails();
-   	
-   	return 0;
-   }
+
 
 
 
