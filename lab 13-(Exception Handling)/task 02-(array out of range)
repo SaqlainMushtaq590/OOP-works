@@ -1,0 +1,35 @@
+#include <iostream>
+#include<stdexcept>
+using namespace std;
+
+int main() {
+    int arr[3] = {0, 0, 0}; // Initialize all elements to 0
+    int index, value;
+
+    cout << "Enter index (0 to 2): ";
+    cin >> index;
+    cout << "Enter value to store: ";
+    cin >> value;
+
+    try {
+        if (index < 0 || index >= 3) {
+            throw out_of_range("Index out of valid range (0 - 2).");
+        }
+        arr[index] = value;
+        cout << "Value stored successfully at index " << index << ".\n";
+
+        // Display updated array
+        cout << "Array contents: ";
+        for (int i = 0; i < 3; i++) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+
+    } 
+    
+    catch (const out_of_range &e) {
+        cout << "Exception caught: " << e.what() << endl;
+    }
+
+    return 0;
+}

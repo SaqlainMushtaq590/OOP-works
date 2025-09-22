@@ -1,0 +1,41 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdexcept>
+using namespace std;
+
+template <typename T>
+class Logger {
+    string filename;
+public:
+    Logger(string fname) : filename(fname) {}
+
+    void log(const T& message) {
+        ofstream file(filename, ios::app); // append mode
+        if (!file) {
+            throw runtime_error("Unable to open log file!");
+        }
+        file << message << endl;
+        file.close();
+    }
+};
+
+int main() {
+    try {
+        Logger<string> stringLogger("log.txt");
+        stringLogger.log("Program started...");
+        
+        Logger<int> intLogger("log.txt");
+        intLogger.log(2025);
+
+        Logger<double> doubleLogger("log.txt");
+        doubleLogger.log(3.14159);
+
+        cout << "Logs written successfully to log.txt" << endl;
+
+    } catch (const runtime_error &e) {
+        cout << "Exception caught: " << e.what() << endl;
+    }
+
+    return 0;
+}

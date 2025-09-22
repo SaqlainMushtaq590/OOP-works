@@ -1,0 +1,47 @@
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+template <typename T>
+class Calculator {
+public:
+    T add(T a, T b) {
+        return a + b;
+    }
+
+    T subtract(T a, T b) {
+        return a - b;
+    }
+
+    T multiply(T a, T b) {
+        return a * b;
+    }
+
+    T divide(T a, T b) {
+        if (b == 0) {
+            throw runtime_error("Division by zero is not allowed!");
+        }
+        return a / b;
+    }
+};
+
+int main() {
+    Calculator<double> calc;  // You can also use Calculator<int> or Calculator<float>
+
+    double x, y;
+    cout << "Enter two numbers: ";
+    cin >> x >> y;
+
+    try {
+        cout << "Addition: " << calc.add(x, y) << endl;
+        cout << "Subtraction: " << calc.subtract(x, y) << endl;
+        cout << "Multiplication: " << calc.multiply(x, y) << endl;
+        cout << "Division: " << calc.divide(x, y) << endl;
+    } 
+    
+    catch (const runtime_error &e) {
+        cout << "Exception caught: " << e.what() << endl;
+    }
+
+    return 0;
+}
