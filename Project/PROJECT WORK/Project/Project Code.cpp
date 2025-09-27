@@ -1,4 +1,4 @@
-
+// Welcome To Smart Hospital Management System
 #include <iostream>
 #include <algorithm>
 #include <ctime>
@@ -1869,6 +1869,7 @@ while (true) {
  return 0;
  
  }
+
 
 
 
