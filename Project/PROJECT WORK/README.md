@@ -47,15 +47,6 @@ This project was a **team effort**:
 
 ---
 
-## 📸 UML Diagram
-
-Here’s the UML diagram showing relationships between classes (composition, aggregation, inheritance):
-
-![UML Diagram](A_UML_class_diagram_in_digital_vector_graphic_form.png.png)
-
-
----
-
 ## ⚙️ Installation & Usage
 
 1. **Clone the repo:**
@@ -95,10 +86,6 @@ medicines.txt
 users.txt
 
 (Created and updated automatically by the program.)
-
-🖥️ Example Console Screens
-
-(Optional: add screenshots of your console menus to make the README visually rich.)
 
 📝 Notes
 
