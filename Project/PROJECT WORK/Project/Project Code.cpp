@@ -1,4 +1,5 @@
-// Hospital Management System
+// WELCOME TO OUR PROJECT
+// Smart Hospital Management system 
 
 #include <iostream>
 #include <algorithm>
@@ -1880,6 +1881,7 @@ while (true) {
 //==============================
 //     thank you
 //==============================
+
 
 
 
