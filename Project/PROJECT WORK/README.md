@@ -51,9 +51,8 @@ This project was a **team effort**:
 
 Here’s the UML diagram showing relationships between classes (composition, aggregation, inheritance):
 
-![UML Diagram](OOP_2nd_semester_project_UML_Class_daigram.png)
+![UML Diagram](A_UML_class_diagram_in_digital_vector_graphic_form.png)
 
-*(Include the PNG file in your repository root so it renders here.)*
 
 ---
 
