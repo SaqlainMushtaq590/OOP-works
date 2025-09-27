@@ -1,6 +1,6 @@
-cout<<"        ===============================================================    "<<endl;
-cout<<"                  SMART HOSPITAL MANAGEMENT SYSTEM                         "<<endl;
-cout<<"        ===============================================================    "<<endl;
+//cout<<"        ===============================================================    "<<endl;
+//cout<<"                  SMART HOSPITAL MANAGEMENT SYSTEM                         "<<endl;
+//cout<<"        ===============================================================    "<<endl;
 #include <iostream>
 #include <algorithm>
 #include <ctime>
@@ -1871,6 +1871,7 @@ while (true) {
  return 0;
  
  }
+
 
 
 
