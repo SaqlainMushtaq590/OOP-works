@@ -1,4 +1,5 @@
 // Hospital Management System
+
 #include <iostream>
 #include <algorithm>
 #include <ctime>
@@ -38,6 +39,23 @@ void setColor(int color) {
 // --------------------------
 // Utility helpers
 // --------------------------
+// Prints a simple table row with left alignment
+void printTableRow(const std::vector<std::string> &cols, int width = 20) {
+    for (auto &c : cols) {
+        cout << left << setw(width) << c;
+    }
+    cout << "\n";
+}
+//Animation typing style
+void printSlow(string text, int speed=50, bool newline=true) {
+    for (char c : text) {
+        cout << c << flush;
+        Sleep(speed);
+    }
+    if (newline) cout << endl;
+}
+
+
 inline string trim(const string &s) {
     size_t a = s.find_first_not_of(" \t\r\n");
     if (a == string::npos) return "";
@@ -665,7 +683,7 @@ private:
     int nextAppointmentId = 1;
     int nextBillId = 1;
 
-    map<int, Patient> patients;
+   
     map<int, Doctor> doctors;
     map<int, Staff> staffs;
     map<int, Appointment> appointments;
@@ -678,6 +696,7 @@ private:
     SurgeryService surgery;
 
 public:
+	 map<int, Patient> patients;
     SHMSDatabase() { loadAll(); seedIfEmpty(); }
     ~SHMSDatabase() { saveAll(); }
 
@@ -1013,6 +1032,43 @@ public:
     setColor(7);
 }
 
+void printSinglePatientAsTable(int pid) {
+    Patient* p = findPatient(pid);
+    if (!p) {
+        setColor(12); 
+        cout << "Patient not found.\n"; 
+        setColor(7);
+        return;
+    }
+
+    setColor(11);
+    cout << "\n==================== My Information ====================\n";
+    setColor(14);
+    cout << setw(5) << left << "ID"
+         << setw(20) << left << "Name"
+         << setw(5) << left << "Age"
+         << setw(8) << left << "Gender"
+         << setw(15) << left << "Contact"
+         << setw(10) << left << "Insured"
+         << setw(20) << left << "Insurance Provider\n";
+    setColor(7);
+    cout << "-------------------------------------------------------------\n";
+
+    cout << setw(5) << left << p->getId()
+         << setw(20) << left << p->getName()
+         << setw(5) << left << p->getAge()
+         << setw(8) << left << p->getGender()
+         << setw(15) << left << p->getContact()
+         << setw(10) << left << (p->isInsured() ? "Yes" : "No")
+         << setw(20) << left << (p->isInsured() ? p->getInsuranceProvider() : "-") 
+         << "\n";
+
+    setColor(11);
+    cout << "===========================================================\n";
+    setColor(7);
+}
+
+
 	 
     void listDoctors() const { 
     cout << "--- Doctors ---\n"; 
@@ -1162,20 +1218,17 @@ public:
         cout << "---------------------------\n";
     }
 };
-
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
 // -----------------------------------------------------------------------------------------------------------------------------
 //                                                     Menus
 // -----------------------------------------------------------------------------------------------------------------------------
-// *****************Admin menu*****************************
+//                           *****************Admin menu*****************************
 void adminMenu(SHMSDatabase &db, const User &me) {
 
 
     while (true) {
+    	system("cls");
         setColor(11); // Cyan heading
-        cout << "\n=== Admin Menu ===\n";
+        printSlow("\n=== Admin Menu ===\n",3);
         setColor(7);   // Reset to white
 
         // Menu options with colors
@@ -1194,6 +1247,7 @@ void adminMenu(SHMSDatabase &db, const User &me) {
         int choice = promptInt("Enter choice: ");
 
         if (choice == 1) {
+        	system("cls");
             Doctor d;
             d.setName(promptString("Doctor Name: "));
             d.setAge(promptInt("Age: "));
@@ -1218,6 +1272,7 @@ void adminMenu(SHMSDatabase &db, const User &me) {
             }
         } 
         else if (choice == 2) {
+        	system("cls");
             Staff s;
             s.setName(promptString("Staff Name: "));
             s.setAge(promptInt("Age: "));
@@ -1240,20 +1295,34 @@ void adminMenu(SHMSDatabase &db, const User &me) {
             }
         } 
         else if (choice == 3) { db.printDoctorsTable();
+        pauseConsole();
 	  }
         else if (choice == 4) { db.printStaffTable();
+        pauseConsole();
         }
         else if (choice == 5) { db.printPatientsTable();
+        pauseConsole();
         }
         else if (choice == 6) { db.printAppointmentsTable();
+        pauseConsole();
 	  }
 	  else if (choice == 7) { db.printBillsTable();
+	  pauseConsole();
 	  }
         else if (choice == 8) { db.printStatistics();
+        pauseConsole();
 	  }
-	  else if (choice == 10) {
-         db.getSurgery().performService();
-       }
+	 else if (choice == 9) {
+    int pid = promptInt("Enter Patient ID for surgery: ");
+    if (db.findPatient(pid)) {
+        db.getSurgery().performService(); // or pass pid if your function expects it
+        setColor(10); cout << "Surgery scheduled for patient " << pid << "\n"; setColor(7);
+    } else {
+        setColor(12); cout << "Patient not found.\n"; setColor(7);
+    }
+    pauseConsole();
+}
+
 	  else if (choice == 10) { 
             db.saveAll();
             setColor(10); cout << "All data saved successfully.\n"; setColor(7);
@@ -1270,28 +1339,30 @@ void adminMenu(SHMSDatabase &db, const User &me) {
         }
     }
 }
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-void receptionistMenu(SHMSDatabase &db, const User &me) {
-    while (true) {
-        setColor(14); // Yellow heading
-        cout << "\n=== Receptionist Menu ===\n";
+     //Receptionist Menu----------------------------------------------------------------------------
+	void receptionistMenu(SHMSDatabase &db, const User &me) {
+ 	  while (true) {
+    	system("cls");
+        setColor(11); // Cyan heading
+        printSlow("\n=== RECEPTIONIST MENU ===", 15);
         setColor(7);
 
-        setColor(10); cout << "1) "; setColor(7); cout << "Register patient\n";
-        setColor(10); cout << "2) "; setColor(7); cout << "Search patient\n";
-        setColor(10); cout << "3) "; setColor(7); cout << "Schedule appointment\n";
-        setColor(10); cout << "4) "; setColor(7); cout << "Cancel appointment\n";
-        setColor(10); cout << "5) "; setColor(7); cout << "List appointments\n";
-        setColor(10); cout << "6) "; setColor(7); cout << "Create bill\n";
-        setColor(10); cout << "7) "; setColor(7); cout << "Add medicine\n";
-        setColor(10); cout << "8) "; setColor(7); cout << "Register emergency admission\n";
-        setColor(10); cout << "9) "; setColor(7); cout << "Save & return\n";
+        // menu lines
+        setColor(10); cout << "1) "; setColor(7); cout << "Register Patient\n";
+        setColor(10); cout << "2) "; setColor(7); cout << "List Patients (table)\n";
+        setColor(10); cout << "3) "; setColor(7); cout << "Schedule Appointment\n";
+        setColor(10); cout << "4) "; setColor(7); cout << "View Appointments (table)\n";
+        setColor(10); cout << "5) "; setColor(7); cout << "Create Bill for Patient\n";
+        setColor(10); cout << "6) "; setColor(7); cout << "Add Medicine to Pharmacy\n";
+        setColor(10); cout << "7) "; setColor(7); cout << "Register Emergency Admission\n";
+        setColor(10); cout << "8) "; setColor(7); cout << "Save & Return\n";
         setColor(12); cout << "0) "; setColor(7); cout << "Exit program\n";
 
-        setColor(7);
         int choice = promptInt("Enter choice: ");
 
+        // 1) Register patient
         if (choice == 1) {
+        	system("cls");
             Patient p;
             p.setName(promptString("Name: "));
             p.setAge(promptInt("Age: "));
@@ -1317,16 +1388,18 @@ void receptionistMenu(SHMSDatabase &db, const User &me) {
                 if (db.addUser(u)) { setColor(10); cout << "User created.\n"; setColor(7); }
                 else { setColor(12); cout << "Username exists.\n"; setColor(7); }
             }
-        } 
+        }
+
+        // 2) List Patients (table)
         else if (choice == 2) {
-            string name = promptString("Enter partial name to search: ");
-            auto res = db.searchPatientsByName(name);
-            setColor(11);
-            cout << "Found " << res.size() << " patients:\n";
-            setColor(7);
-            for (auto &p : res) p.displayInfo();
-        } 
+        	system("cls");
+            db.printPatientsTable();
+            pauseConsole();
+        }
+
+        // 3) Schedule Appointment
         else if (choice == 3) {
+        	system("cls");
             int pid = promptInt("Patient ID: ");
             int did = promptInt("Doctor ID: ");
             string date = promptString("Date (YYYY-MM-DD): ");
@@ -1340,15 +1413,22 @@ void receptionistMenu(SHMSDatabase &db, const User &me) {
                 setColor(10);
                 cout << "Appointment scheduled with ID " << aid << "\n";
                 setColor(7);
-            } catch (exception &ex) { setColor(12); cout << "Error: " << ex.what() << "\n"; setColor(7); }
-        } 
+            } catch (exception &ex) {
+                setColor(12); cout << "Error: " << ex.what() << "\n"; setColor(7);
+            }
+            pauseConsole();
+        }
+
+        // 4) View Appointments (table)
         else if (choice == 4) {
-            int aid = promptInt("Appointment ID to cancel: ");
-            if (db.cancelAppointment(aid)) { setColor(10); cout << "Cancelled\n"; setColor(7); }
-            else { setColor(12); cout << "Not found\n"; setColor(7); }
-        } 
-        else if (choice == 5) db.printAppointmentsTable();
-        else if (choice == 6) {
+        	system("cls");
+            db.printAppointmentsTable();
+            pauseConsole();
+        }
+
+        // 5) Create Bill for Patient
+        else if (choice == 5) {
+        	system("cls");
             int pid = promptInt("Patient ID: ");
             Patient* pp = db.findPatient(pid);
             if (!pp) { setColor(12); cout << "Patient not found\n"; setColor(7); continue; }
@@ -1368,8 +1448,14 @@ void receptionistMenu(SHMSDatabase &db, const User &me) {
             }
             Bill* b = db.getBill(bid);
             if (b) b->print();
-        } 
-        else if (choice == 7) {
+            pauseConsole();
+        }
+
+        // 6) Add Medicine to Pharmacy
+        else if (choice == 6) {
+        	system("cls");
+        	printSlow("================Medicine to Pharmacy=============",3);
+
             string name = promptString("Medicine name: ");
             int qty = promptInt("Qty: ");
             string exp = promptString("Expiry (YYYY-MM-DD): ");
@@ -1377,99 +1463,275 @@ void receptionistMenu(SHMSDatabase &db, const User &me) {
             setColor(10);
             cout << "Medicine added.\n";
             setColor(7);
+            pauseConsole();
         }
-	  else if (choice == 8) {
-	      db.getEmergency().performService();
-	  }
- 
-        else if (choice == 9) { db.saveAll(); setColor(10); cout << "Saved.\n"; setColor(7); return; }
-        else if (choice == 0) { db.saveAll(); setColor(10); cout << "Saved. Exiting.\n"; setColor(7); exit(0); }
-        else { setColor(12); cout << "Invalid choice.\n"; setColor(7); }
-    }
-}
 
-
-void patientMenu(SHMSDatabase &db, const User &me) {
-    if (me.role != "Patient") { cout << "Not a patient account.\n"; return; }
-    int pid = me.linkedId;
-    if (!db.findPatient(pid)) { cout << "Linked patient record missing.\n"; return; }
-    while (true) {
-        cout << "\n=== Patient Menu ===\n";
-        cout << "1) View my info\n2) View my appointments\n3) View my bills\n4) View my reports\n5) Save & return\n0) Exit\n";
-        int choice = promptInt("Enter choice: ");
-        if (choice == 1) db.findPatient(pid)->displayInfo();
-        else if (choice == 2) {
-            auto ap = db.getAppointmentsForPatient(pid);
-            cout << "Your appointments:\n";
-            for (auto &a : ap) {
-                cout << "[" << a.datetime << "] Doctor ID: " << a.doctorId << " | Type: " << a.type << " | Reason: " << a.reason << "\n";
+        // 7) Register Emergency Admission
+        else if (choice == 7) {
+        	system("cls");
+        	printSlow("================Energency Admission=============",3);
+            int pid = promptInt("Patient ID for emergency admission: ");
+            if (db.findPatient(pid)) {
+                db.getEmergency().performService();
+                setColor(10); cout << "Emergency admission registered.\n"; setColor(7);
+            } else {
+                setColor(12); cout << "Patient not found.\n"; setColor(7);
             }
-        } else if (choice == 3) {
-            cout << "Your bills:\n";
-            auto bills = db.getBillsForPatient(pid);
-            if (bills.empty()) cout << "No bills found.\n";
-            for (auto &b : bills) b.print();
-        } else if (choice == 4) db.getDiagnostics().showReports(pid);
-        else if (choice == 5) { db.saveAll(); cout << "Saved.\n"; return; }
-        else if (choice == 0) { db.saveAll(); cout << "Saved. Exiting.\n"; exit(0); }
-        else cout << "Invalid choice.\n";
+            pauseConsole();
+        }
+
+        // 8) Save & Return
+        else if (choice == 8) {
+            db.saveAll();
+            setColor(10); cout << "Saved.\n"; setColor(7);
+            return;
+        }
+
+        // 0) Exit program
+        else if (choice == 0) {
+            db.saveAll();
+            setColor(10); cout << "Saved. Exiting.\n"; setColor(7);
+            exit(0);
+        }
+
+        else {
+            setColor(12); cout << "Invalid choice.\n"; setColor(7);
+        }
     }
 }
 
-// Doctor menu simplified
-void doctorMenu(SHMSDatabase &db, const User &me) {
-    if (me.role != "Doctor") { cout << "Not a doctor account.\n"; return; }
-    int did = me.linkedId;
-    if (!db.findDoctor(did)) { cout << "Doctor record missing.\n"; return; }
+// ==================== Patient Menu (Table Format) ====================
+void patientMenu(SHMSDatabase &db, const User &me) {
+    if (me.role != "Patient") {
+        setColor(12); cout << "Not a patient account.\n"; setColor(7);
+        return;
+    }
+
+    int pid = me.linkedId;
+    if (!db.findPatient(pid)) {
+        setColor(12); cout << "Linked patient record missing.\n"; setColor(7);
+        return;
+    }
+
     while (true) {
-        cout << "\n=== Doctor Menu ===\n";
-        cout << "1) View my appointments\n";
-	  cout << "2) Add report for patient\n";
-	  cout << "3) Save & return\n";
-	  cout << "4) Schedule surgery for patient\n";
-	  cout << "0) Exit\n";
-        int c = promptInt("Enter choice: ");
-        if (c == 1) {
+        system("cls");
+        setColor(11);
+        printSlow("=== PATIENT MENU ===", 15);
+        setColor(7);
+
+        setColor(10); cout << "1) "; setColor(7); cout << "View My Info\n";
+        setColor(10); cout << "2) "; setColor(7); cout << "View My Appointments\n";
+        setColor(10); cout << "3) "; setColor(7); cout << "View My Bills\n";
+        setColor(10); cout << "4) "; setColor(7); cout << "View My Diagnostic Reports\n";
+        setColor(10); cout << "5) "; setColor(7); cout << "Save & Return\n";
+        setColor(12); cout << "0) "; setColor(7); cout << "Exit Program\n";
+
+        int choice = promptInt("Enter choice: ");
+
+        if (choice == 1) {
+   	 db.printSinglePatientAsTable(pid);
+  	  pauseConsole();
+		}
+
+
+        else if (choice == 2) {
+    auto ap = db.getAppointmentsForPatient(pid);
+    setColor(11);
+    printSlow("\n=================== My Appointments ===================\n",3);
+    setColor(14);
+    cout << setw(5) << left << "AID"
+         << setw(8) << left << "DID"
+         << setw(20) << left << "Date/Time"
+         << setw(15) << left << "Type"
+         << setw(25) << left << "Reason\n";
+    setColor(7);
+    cout << "-------------------------------------------------------------\n";
+
+    if (ap.empty()) {
+        cout << "No appointments found.\n";
+    } else {
+        for (auto &a : ap) {
+            cout << setw(5) << left << a.id
+                 << setw(8) << left << a.doctorId
+                 << setw(20) << left << a.datetime
+                 << setw(15) << left << a.type
+                 << setw(25) << left << a.reason << "\n";
+        }
+    }
+
+    setColor(11);
+    cout << "=============================================================\n";
+    setColor(7);
+    pauseConsole();
+}
+
+        else if (choice == 3) {
+            auto bills = db.getBillsForPatient(pid);
+            setColor(11); cout << "\n=== My Bills ===\n"; setColor(7);
+            if (bills.empty()) cout << "No bills found.\n";
+            else for (auto &b : bills) b.print();
+            pauseConsole();
+        }
+        else if (choice == 4) {
+            db.getDiagnostics().showReports(pid);
+            pauseConsole();
+        }
+        else if (choice == 5) {
+            db.saveAll();
+            setColor(10); cout << "Saved. Returning.\n"; setColor(7);
+            return;
+        }
+        else if (choice == 0) {
+            db.saveAll();
+            setColor(10); cout << "Saved. Exiting.\n"; setColor(7);
+            exit(0);
+        }
+        else {
+            setColor(12); cout << "Invalid choice.\n"; setColor(7);
+            pauseConsole();
+        }
+    }
+}
+
+// ==================== Doctor Menu (Table Format) ====================
+void doctorMenu(SHMSDatabase &db, const User &me) {
+    if (me.role != "Doctor") {
+        setColor(12); cout << "Not a doctor account.\n"; setColor(7);
+        return;
+    }
+
+    int did = me.linkedId;
+    if (!db.findDoctor(did)) {
+        setColor(12); cout << "Doctor record missing.\n"; setColor(7);
+        return;
+    }
+
+    while (true) {
+        system("cls");
+        setColor(11);
+        printSlow("=== DOCTOR MENU ===", 15);
+        setColor(7);
+
+        setColor(10); cout << "1) "; setColor(7); cout << "View My Appointments\n";
+        setColor(10); cout << "2) "; setColor(7); cout << "Add Diagnostic Report for Patient\n";
+        setColor(10); cout << "3) "; setColor(7); cout << "Schedule Surgery for Patient\n";
+        setColor(10); cout << "4) "; setColor(7); cout << "Save & Return\n";
+        setColor(12); cout << "0) "; setColor(7); cout << "Exit Program\n";
+
+        int choice = promptInt("Enter choice: ");
+
+        if (choice == 1) {
+            // Appointments Table for this doctor
             auto ap = db.getAppointmentsForDoctor(did);
-            cout << "Your appointments:\n";
-            for (auto &a : ap) cout << "AID: " << a.id << " | Patient: " << a.patientId << " | " << a.datetime << " | " << a.type << "\n";
-        } else if (c == 2) {
+            setColor(11);
+            cout << "\n=== My Appointments ===\n"; setColor(7);
+            if (ap.empty()) cout << "No appointments found.\n";
+            else {
+                cout << setw(5) << "AID" << setw(8) << "PID" << setw(20) << "Date/Time" << setw(15) << "Type" << setw(25) << "Reason\n";
+                for (auto &a : ap)
+                    cout << setw(5) << a.id << setw(8) << a.patientId << setw(20) << a.datetime << setw(15) << a.type << setw(25) << a.reason << "\n";
+            }
+            pauseConsole();
+        }
+        else if (choice == 2) {
             int pid = promptInt("Patient ID: ");
             string rep = promptString("Report text: ");
             db.getDiagnostics().addReport(pid, rep);
-            cout << "Report saved.\n";
-        } else if (c == 3) { db.saveAll(); cout << "Saved.\n"; return; }
-        else if (c == 4) {
-       int pid = promptInt("Patient ID: ");
-       // You could add more details here if you like
-       db.getSurgery().performService();
-       cout << "Surgery scheduled for patient " << pid << "\n";
+            setColor(10); cout << "Report saved.\n"; setColor(7);
+            pauseConsole();
         }
-
-        else if (c == 0) { db.saveAll(); cout << "Saved. Exiting.\n"; exit(0); }
-        else cout << "Invalid.\n";
+        else if (choice == 3) {
+            int pid = promptInt("Patient ID: ");
+            db.getSurgery().performService();
+            setColor(10); cout << "Surgery scheduled for patient " << pid << "\n"; setColor(7);
+            pauseConsole();
+        }
+        else if (choice == 4) {
+            db.saveAll();
+            setColor(10); cout << "Saved. Returning.\n"; setColor(7);
+            return;
+        }
+        else if (choice == 0) {
+            db.saveAll();
+            setColor(10); cout << "Saved. Exiting.\n"; setColor(7);
+            exit(0);
+        }
+        else {
+            setColor(12); cout << "Invalid choice.\n"; setColor(7);
+            pauseConsole();
+        }
     }
 }
 
-//Animations 
-// Typing effect function
-void printSlow(string text, int speed=50, bool newline=true) {
-    for (char c : text) {
-        cout << c << flush;
-        Sleep(speed);
+
+
+// ==================== Guest View Menu (Table Format) ====================
+void guestViewMenu(SHMSDatabase &db) {
+    while (true) {
+        system("cls");
+        setColor(11); // Cyan heading
+        printSlow("=== GUEST VIEW MENU ===", 15);
+        setColor(7);
+
+        printSlow("Browse hospital information without login", 10);
+
+        // Menu lines
+        setColor(10); cout << "1) "; setColor(7); cout << "View Doctors List\n";
+        setColor(10); cout << "2) "; setColor(7); cout << "View Medicines in Pharmacy\n";
+        setColor(10); cout << "3) "; setColor(7); cout << "View Patients (public info)\n";
+        setColor(10); cout << "4) "; setColor(7); cout << "View Appointments (public info)\n";
+        setColor(10); cout << "5) "; setColor(7); cout << "View Hospital Statistics\n";
+        setColor(10); cout << "6) "; setColor(7); cout << "Return to Main Menu\n";
+        setColor(12); cout << "0) "; setColor(7); cout << "Exit Program\n";
+
+        int choice = promptInt("Enter choice: ");
+
+        if (choice == 1) {
+            // Doctors Table
+            db.printDoctorsTable();
+            pauseConsole();
+        }
+        else if (choice == 2) {
+            // Pharmacy Medicines
+            db.getPharmacy().listMedicines();
+            pauseConsole();
+        }
+        else if (choice == 3) {
+            // Patients Table
+            db.printPatientsTable();
+            pauseConsole();
+        }
+        else if (choice == 4) {
+            // Appointments Table
+            db.printAppointmentsTable();
+            pauseConsole();
+        }
+        else if (choice == 5) {
+            // Statistics
+            db.printStatistics();
+            pauseConsole();
+        }
+        else if (choice == 6) {
+            // Back to main menu
+            db.saveAll();
+            setColor(10); cout << "Returning to Main Menu.\n"; setColor(7);
+            break;
+        }
+        else if (choice == 0) {
+            db.saveAll();
+            setColor(10); cout << "Saved. Exiting.\n"; setColor(7);
+            exit(0);
+        }
+        else {
+            setColor(12); cout << "Invalid choice.\n"; setColor(7);
+            pauseConsole();
+        }
     }
-    if (newline) cout << endl;
 }
 
 
 
-
-//====================================================================================================================================================
-//====================================================================================================================================================
-// ======================================================((          Main loop           ))===========================================================
-//====================================================================================================================================================
-//====================================================================================================================================================
-
+// ======================================================((     Main loop   ))===========================================================
 
 int main() {
     ios::sync_with_stdio(false);
@@ -1479,74 +1741,80 @@ int main() {
 
     // ========= Banner =========
     setColor(14); // Yellow
-    printSlow("\t\t=====================================", 2);
+    printSlow("\t\t===========================================", 2);
 
     setColor(11); // Cyan
-    printSlow("\t\tSmart Hospital Management System", 50);
+    printSlow("\t\t    Smart Hospital Management System", 30);
 
-    setColor(14); // Yellow
-    printSlow("\t\t=====================================", 2);
+    setColor(14); 
+    printSlow("\t\t===========================================", 2);
 
-    setColor(7); // Reset to default
+    setColor(7); 
 
     // ========= Menu Loop =========
-    while (true) {
-        setColor(14); // Yellow
-        printSlow("\nMain Menu:", 30);
+while (true) {
+    setColor(14); printSlow("\nMain Menu:", 30);
+    setColor(10); printSlow("1) Login", 30);
+    setColor(9);  printSlow("2) Continue as Guest", 30);
+    setColor(13); printSlow("3) Register (patient)", 30);
+    setColor(12); printSlow("0) Exit", 30);
+    setColor(7);
 
-        setColor(10); // Green
-        printSlow("1) Login", 30);
+    int choice = promptInt("Enter choice: ");
 
-        setColor(9); // Blue
-        printSlow("2) Continue as Guest", 30);
+    if (choice == 1) {  // LOGIN
+      // ========= Login Menu =========
+	while (true) {
+    system("cls");
+    setColor(11); // Cyan heading
+    cout << "\nLogin As:\n";
+    setColor(7);  
 
-        setColor(13); // Magenta
-        printSlow("3) Register (patient)", 30);
+    setColor(10); printSlow( "1)  Admin\n",4);
+    setColor(10); printSlow( "2) Receptionist\n",4);
+    setColor(10); printSlow( "3) Doctor\n",4);
+    setColor(10); printSlow( "4) Patient\n",4);
+    setColor(12); printSlow( "0) Cancel\n",4);
 
-        setColor(12); // Red
-        printSlow("0) Exit", 30);
+    int roleChoice = promptInt("Enter choice: ");
+    string expectedRole;
 
-        setColor(7); // Reset to default for input
-        int choice = promptInt("Enter choice: ");
+    if (roleChoice == 1) expectedRole = "Admin";
+    else if (roleChoice == 2) expectedRole = "Receptionist";
+    else if (roleChoice == 3) expectedRole = "Doctor";
+    else if (roleChoice == 4) expectedRole = "Patient";
+    else if (roleChoice == 0) break;
+    else {
+        setColor(12); cout << "Invalid choice.\n"; setColor(7);
+        continue;
+    }
 
-        if (choice == 1) {
-            setColor(11);
-            printSlow("Admin and Receptionist have predefined (protected) Credentials", 30);
-            setColor(7);
+    setColor(11); cout << "\nEnter credentials for " << expectedRole << ":\n"; setColor(7);
+    string uname = promptString("Username: ");
+    string pwd = promptString("Password: ");
 
-            string uname = promptString("Username: ");
-            string pwd = promptString("Password: ");
-            User u;
-            if (db.authenticate(uname, pwd, u)) {
-                setColor(10);
-                printSlow("Login successful. Role: " + u.role, 30);
-                setColor(7);
+    User u;
+    if (db.authenticate(uname, pwd, u) && u.role == expectedRole) {
+        setColor(10); printSlow("Login successful as " + expectedRole, 30); setColor(7);
 
-                if (u.role == "Admin") adminMenu(db, u);
-                else if (u.role == "Receptionist") receptionistMenu(db, u);
-                else if (u.role == "Patient") patientMenu(db, u);
-                else if (u.role == "Doctor") doctorMenu(db, u);
-                else {
-                    setColor(12);
-                    printSlow("No menu for role: " + u.role, 30);
-                    setColor(7);
-                }
-            } else {
-                setColor(12);
-                printSlow("Invalid credentials.", 30);
-                setColor(7);
-            }
-        } 
-        else if (choice == 2) {
-            setColor(11);
-            printSlow("Guest view: listing doctors and medicines.", 30);
-            setColor(7);
-            db.listDoctors();
-            db.getPharmacy().listMedicines();
-            pauseConsole();
-        } 
-        else if (choice == 3) {
-            setColor(13);
+        if (expectedRole == "Admin") adminMenu(db, u);
+        else if (expectedRole == "Receptionist") receptionistMenu(db, u);
+        else if (expectedRole == "Doctor") doctorMenu(db, u);
+        else if (expectedRole == "Patient") patientMenu(db, u);
+        break; // exit after menu returns
+    } else {
+        setColor(12); printSlow("Invalid credentials or role mismatch.", 30); setColor(7);
+    }
+}
+
+    }
+
+    else if (choice == 2) {
+        guestViewMenu(db);
+    }
+
+    else if (choice == 3) {
+         setColor(13);
             printSlow("Register a new patient user:", 30);
             setColor(7);
 
@@ -1584,21 +1852,31 @@ int main() {
             }
             setColor(7);
         } 
-        else if (choice == 0) {
-            db.saveAll();
-            setColor(10);
-            printSlow("Saved. Exiting.", 30);
-            setColor(7);
-            break;
-        } 
-        else {
-            setColor(12);
-            printSlow("Invalid choice.", 30);
-            setColor(7);
-        }
+        
+    else if (choice == 0) {
+        db.saveAll();
+        setColor(10);
+        printSlow("Saved. Exiting.", 30);
+        setColor(7);
+        break;
     }
-}
-    //return 0;}
+
+    else {
+        setColor(12);
+        printSlow("Invalid choice.", 30);
+        setColor(7);
+    }
+} 
+ return 0;
+ 
+ }
+
+
+
+
+
+
+
 
 
 
