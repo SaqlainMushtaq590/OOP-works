@@ -1,237 +1,125 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Smart Hospital Management System — Project README</title>
+📝 Smart Hospital Management System — README.md
+# 🏥 Smart Hospital Management System (C++)
 
-  <!-- Simple modern styles -->
-  <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#0ea5a3;
-      --accent-2:#7c3aed;
-      --muted:#94a3b8;
-      --glass: rgba(255,255,255,0.03);
-      --card-border: rgba(255,255,255,0.04);
-      --success:#10b981;
-      --danger:#ef4444;
-      --yellow:#f59e0b;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071226 0%, #071a2a 60%);color:#e6eef8}
-    .wrap{max-width:1100px;margin:32px auto;padding:28px;border-radius:12px;background:linear-gradient(180deg,var(--card), rgba(7,13,23,0.9));box-shadow: 0 8px 40px rgba(2,6,23,0.7);border:1px solid var(--card-border)}
-    header{display:flex;gap:18px;align-items:center}
-    .logo{
-      width:84px;height:84px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));font-weight:700;color:white;font-size:28px;box-shadow:0 6px 20px rgba(124,58,237,0.25)
-    }
-    h1{margin:0;font-size:22px}
-    p.lead{margin:6px 0 18px;color:var(--muted)}
-    .badges{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-    .badge{background:var(--glass);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
-    .grid{display:grid;grid-template-columns:1fr 340px;gap:22px;margin-top:18px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:10px;border:1px solid var(--card-border)}
-    .section-title{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-    .section-title h3{margin:0;font-size:16px}
-    .muted{color:var(--muted);font-size:14px}
-    ul{margin:8px 0 12px 18px}
-    li{margin:6px 0}
-    pre{background:rgba(0,0,0,0.25);padding:12px;border-radius:8px;overflow:auto;border:1px solid rgba(255,255,255,0.03)}
-    code{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;color:#dbeafe}
-    .btn{display:inline-block;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 8px 24px rgba(14,165,163,0.12);border:0}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-    .table{width:100%;border-collapse:collapse;margin-top:8px;}
-    .table th, .table td{padding:8px 10px;border-bottom:1px dashed rgba(255,255,255,0.03);text-align:left;font-size:14px}
-    .table th{color:var(--muted);font-weight:600}
-    .small{font-size:13px;color:var(--muted)}
-    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
-    .team{display:flex;gap:12px;flex-wrap:wrap}
-    .member{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:10px;border-radius:8px;border:1px solid var(--card-border);min-width:200px}
-    .role{font-size:13px;color:var(--muted);margin-top:6px}
-    .col-key{width:170px;color:var(--muted);font-weight:600}
-    .concepts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr} .concepts{grid-template-columns:1fr}}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <div class="logo">SHMS</div>
-      <div>
-        <h1>Smart Hospital Management System</h1>
-        <p class="lead">A console-based C++ application using Object-Oriented Programming principles — appointment, billing, pharmacy, diagnostics, and role-based access.</p>
-        <div class="badges">
-          <div class="badge">C++</div>
-          <div class="badge">OOP</div>
-          <div class="badge">Console UI</div>
-          <div class="badge">File-based persistence</div>
-          <div class="badge">UML Diagram</div>
-        </div>
-      </div>
-    </header>
+![GitHub repo size](https://img.shields.io/github/repo-size/SaqlainMushtaq590/OOP-works?color=blue&label=Repo%20Size)
+![C++](https://img.shields.io/badge/Language-C++-informational?style=flat&logo=c%2B%2B&logoColor=white&color=00599C)
+![OOP](https://img.shields.io/badge/OOP-Principles-success?style=flat)
 
-    <div class="grid">
-      <!-- left (main) -->
-      <div>
-        <div class="card">
-          <div class="section-title"><h3>Overview</h3></div>
-          <p class="muted">Smart Hospital Management System (SHMS) is designed to help small-to-medium clinics manage patients, doctors, appointments, pharmacy stock, diagnostic reports and billing — all in a terminal-based interface. The system is role-aware (Admin, Receptionist, Doctor, Patient, Guest).</p>
+A **console-based C++ application** for managing hospital operations — appointments, billing, pharmacy, diagnostics, and role-based access — built entirely with **Object-Oriented Programming** principles.
 
-          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-            <a class="btn btn-primary" href="#features">Explore Features</a>
-            <a class="btn btn-ghost" href="#installation">How to Run</a>
-            <a class="btn btn-ghost" href="#oop">OOP Concepts</a>
-          </div>
-        </div>
+---
 
-        <div id="features" class="card" style="margin-top:16px">
-          <div class="section-title"><h3>Features</h3></div>
-          <ul>
-            <li><strong>Role-based menus:</strong> Admin, Receptionist, Doctor, Patient — each with tailored capabilities.</li>
-            <li><strong>Appointments:</strong> Schedule, list, cancel; conflict detection prevents double bookings.</li>
-            <li><strong>Billing:</strong> Create itemized bills; optional insurance coverage and total calculation.</li>
-            <li><strong>Pharmacy:</strong> Add medicines with quantity and expiry; list and low-stock checks.</li>
-            <li><strong>Diagnostics & Surgery:</strong> Add diagnostic reports per patient; schedule surgery actions.</li>
-            <li><strong>Persistence:</strong> All major entities persist to CSV-like files for simple storage.</li>
-          </ul>
-        </div>
+## 🚀 Features
 
-        <div class="card" style="margin-top:16px">
-          <div class="section-title"><h3 id="installation">Installation & Usage</h3></div>
+| Feature | Description |
+|---------|-------------|
+| **Role-based menus** | Admin, Receptionist, Doctor, Patient — each with tailored capabilities |
+| **Appointments** | Schedule, view, and manage appointments with conflict checks |
+| **Billing** | Create itemized bills with optional insurance coverage |
+| **Pharmacy** | Add medicines with quantity and expiry, list and manage stock |
+| **Diagnostics & Surgery** | Add diagnostic reports and schedule surgeries |
+| **Persistence** | Data stored in simple file-based format (CSV-like) |
 
-          <p class="small">Compile & run the single-file console app (example with <code>g++</code>):</p>
-          <pre><code>$ g++ main.cpp -o SmartHospital
-$ ./SmartHospital
-</code></pre>
+---
 
-          <p class="small">Files used at runtime (created/updated in the working directory):</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-            <div class="badge">patients.txt</div>
-            <div class="badge">doctors.txt</div>
-            <div class="badge">staff.txt</div>
-            <div class="badge">appointments.txt</div>
-            <div class="badge">bills.txt</div>
-            <div class="badge">medicines.txt</div>
-            <div class="badge">users.txt</div>
-          </div>
-        </div>
+## 👥 Team Collaboration
 
-        <div id="oop" class="card" style="margin-top:16px">
-          <div class="section-title"><h3>OOP Concepts Used</h3></div>
-          <div class="concepts">
-            <div>
-              <table class="table" aria-describedby="oop-table-1">
-                <thead><tr><th>Concept</th><th>Usage</th></tr></thead>
-                <tbody>
-                  <tr><td class="col-key">Classes & Objects</td><td>Patient, Doctor, Staff, Appointment, Bill, Pharmacy, Diagnostics, Surgery, SHMSDatabase, User</td></tr>
-                  <tr><td class="col-key">Encapsulation</td><td>Private members & getters/setters on Person-derived classes</td></tr>
-                  <tr><td class="col-key">Inheritance</td><td>Person → Patient/Doctor/Staff; HospitalService → Pharmacy/Diagnostics/Emergency/Surgery</td></tr>
-                </tbody>
-              </table>
-            </div>
+This project was a **team effort**:
 
-            <div>
-              <table class="table">
-                <thead><tr><th>Concept</th><th>Where & How</th></tr></thead>
-                <tbody>
-                  <tr><td class="col-key">Composition</td><td>SHMSDatabase contains Pharmacy, Diagnostics, Emergency, Surgery (strong ownership)</td></tr>
-                  <tr><td class="col-key">Aggregation</td><td>SHMSDatabase maintains maps of Patients, Doctors, Appointments (loose association)</td></tr>
-                  <tr><td class="col-key">Polymorphism</td><td>HospitalService virtual interface used to call performService() for different services</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+| Member | Contribution |
+|--------|--------------|
+| **Saqlain Mushtaq** | Lead developer — debugging, code changes, formatting, and feature integration |
+| **Muneeba Arshad** | Initial codebase and core logic provider |
+| **Afzaal Ahmed** | Testing, additional development contributions |
 
-        <div class="card" style="margin-top:16px">
-          <div class="section-title"><h3>Tables (Info & Appointments)</h3></div>
-          <p class="small">Your program already produces formatted tables. Example table styles used in-app:</p>
+---
 
-          <table class="table">
-            <thead><tr><th>Patients (example columns)</th><th></th></tr></thead>
-            <tbody>
-              <tr><td>ID</td><td>123</td></tr>
-              <tr><td>Name</td><td>Ali Hassan</td></tr>
-              <tr><td>Age</td><td>30</td></tr>
-              <tr><td>Gender</td><td>M</td></tr>
-              <tr><td>Contact</td><td>+92-300-3333333</td></tr>
-              <tr><td>Insured</td><td>Yes</td></tr>
-            </tbody>
-          </table>
+## 🖥️ OOP Concepts Used
 
-          <table class="table" style="margin-top:12px">
-            <thead><tr><th>Appointments</th><th></th></tr></thead>
-            <tbody>
-              <tr><td>AID</td><td>5</td></tr>
-              <tr><td>PID</td><td>2</td></tr>
-              <tr><td>DID</td><td>1</td></tr>
-              <tr><td>Date/Time</td><td>2025-05-30 09:00</td></tr>
-              <tr><td>Type</td><td>walk-in</td></tr>
-            </tbody>
-          </table>
-        </div>
+| Concept | Where / How |
+|---------|-------------|
+| **Classes & Objects** | `Patient`, `Doctor`, `Staff`, `Appointment`, `Bill`, `Pharmacy`, `Diagnostics`, `Surgery`, `SHMSDatabase`, `User` |
+| **Encapsulation** | Private members with getters and setters in person-derived classes |
+| **Inheritance** | `Person → Patient/Doctor/Staff`; `HospitalService → Pharmacy/Diagnostics/Emergency/Surgery` |
+| **Composition** | `SHMSDatabase` contains `Pharmacy`, `Diagnostics`, `Emergency`, `Surgery` (strong ownership) |
+| **Aggregation** | `SHMSDatabase` maintains collections of `Patients`, `Doctors`, `Appointments` (loose association) |
+| **Polymorphism** | `HospitalService` virtual interface used to call `performService()` for different services |
 
-        <div class="card" style="margin-top:16px">
-          <div class="section-title"><h3>Repository & Files</h3></div>
-          <p class="muted">Add this HTML to your repo root and link to it from <code>README.md</code> (or use GitHub Pages to host it).</p>
-          <p class="small">Recommended files to keep versioned:</p>
-          <ul>
-            <li><code>main.cpp</code> — main application source</li>
-            <li>Source split (.h/.cpp) if you refactor</li>
-            <li>UML images (PNG/SVG) and <code>README.html</code></li>
-          </ul>
-        </div>
+---
 
-      </div>
+## 📸 UML Diagram
 
-      <!-- right (sidebar) -->
-      <aside>
-        <div class="card">
-          <div class="section-title"><h3>Team</h3></div>
-          <div class="team">
-            <div class="member">
-              <strong>Saqlain Mushtaq</strong>
-              <div class="role">Lead developer — debugging, code changes, formatting, and feature integration.</div>
-            </div>
-            <div class="member">
-              <strong>Muneeba Arshad</strong>
-              <div class="role">Initial codebase and core logic provider.</div>
-            </div>
-            <div class="member">
-              <strong>Afzaal Ahmed</strong>
-              <div class="role">Testing, additional development contributions.</div>
-            </div>
-          </div>
+Here’s the UML diagram showing relationships between classes (composition, aggregation, inheritance):
 
-          <div style="margin-top:12px">
-            <a class="btn btn-primary" href="https://github.com/SaqlainMushtaq590/OOP-works" target="_blank">View on GitHub</a>
-            <a class="btn btn-ghost" href="#oop" style="margin-left:8px">OOP Diagram</a>
-          </div>
-        </div>
+![UML Diagram](OOP_2nd_semester_project_UML_Class_daigram.png)
 
-        <div class="card" style="margin-top:16px">
-          <div class="section-title"><h3>UML Diagram (Visual)</h3></div>
-          <p class="small muted">A colorful UML PNG/SVG is included in the repo. Example filename:</p>
-          <div class="muted" style="margin-top:8px">A_UML_class_diagram_in_digital_vector_graphic_form.png</div>
-          <div style="margin-top:10px">
-            <img src="./A_UML_class_diagram_in_digital_vector_graphic_form.png" alt="UML diagram" style="width:100%;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)">
-          </div>
-        </div>
+*(Include the PNG file in your repository root so it renders here.)*
 
-        <div class="card" style="margin-top:16px">
-          <div class="section-title"><h3>Quick Notes</h3></div>
-          <p class="small"><strong>Default logins:</strong> admin/admin (Admin), recept/recept (Receptionist). Doctor and patient accounts created in runtime.</p>
-          <p class="small">To change colors or layout of this page, edit the CSS in the <code>&lt;style&gt;</code> block at the top.</p>
-        </div>
-      </aside>
-    </div>
+---
 
-    <footer>
-      Built collaboratively by <strong>Saqlain Mushtaq</strong>, <strong>Muneeba Arshad</strong>, and <strong>Afzaal Ahmed</strong>. &nbsp; • &nbsp; © Smart Hospital Project
-    </footer>
-  </div>
-</body>
-</html>
+## ⚙️ Installation & Usage
+
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/SaqlainMushtaq590/OOP-works.git
+   cd OOP-works
+
+
+Compile and run:
+
+g++ main.cpp -o SmartHospital
+./SmartHospital
+
+
+Default logins:
+
+Admin: admin / admin
+
+Receptionist: recept / recept
+
+Doctor/Patient accounts are created at runtime.
+
+📂 Data Files Used
+
+patients.txt
+
+doctors.txt
+
+staff.txt
+
+appointments.txt
+
+bills.txt
+
+medicines.txt
+
+users.txt
+
+(Created and updated automatically by the program.)
+
+🖥️ Example Console Screens
+
+(Optional: add screenshots of your console menus to make the README visually rich.)
+
+📝 Notes
+
+Built in C++ using Dev-C++ (compatible with g++).
+
+Role-based login ensures each user sees only relevant features.
+
+Includes colorized console output and typing animations for better UX.
+
+💡 Future Enhancements
+
+Add a GUI (e.g. with SFML or Qt)
+
+Online database connectivity
+
+Extended reporting module
+
+📜 License
+
+MIT License © Saqlain Mushtaq 
+              Muneeba Arshad
+              Afzaal Ahmed 
+              Smart Hospital Management System.
