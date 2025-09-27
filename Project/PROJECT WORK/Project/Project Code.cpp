@@ -1,5 +1,3 @@
-// WELCOME TO OUR PROJECT
-// Smart Hospital Management system 
 
 #include <iostream>
 #include <algorithm>
