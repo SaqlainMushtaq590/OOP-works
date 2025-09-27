@@ -1871,22 +1871,6 @@ while (true) {
  }
 
 
-// The end of our Porject 
-// It wsa to fantastic and awesome Project and we worked together on it
-// we will try to make new projects, better then this one 
-
-
-//==============================
-//     thank you
-//==============================
-
-
-
-
-
-
-
-
 
 
 
