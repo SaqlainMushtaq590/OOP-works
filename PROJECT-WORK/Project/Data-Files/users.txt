@@ -1,0 +1,7 @@
+admin,Admin,admin,0
+doctor1,Doctor,doctor1,10
+ghussain,Patient,hussain1122,6
+muneeba,Patient,password,1
+patient,Patient,patient,7
+patient1,Patient,patient1,8
+recept,Receptionist,recept,0
